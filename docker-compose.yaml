@@ -1,0 +1,27 @@
+version: '3'
+services:
+  postgres:
+    image: 'postgres:latest'
+  redis:
+    image: 'redis:latest'
+  nginx:
+    image: jaswanth434/sdcnginx:latest
+    restart: always
+    ports:
+      - '3000:80'
+  client:
+    image: jaswanth434/sdcclient:latest
+  server:
+    image: jaswanth434/sdcserver:latest
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=postgres
+      - PGPASSWORD=postgres_assword
+      - PGPORT=5432
+    depends_on:
+      - postgres
+      - redis
+    
